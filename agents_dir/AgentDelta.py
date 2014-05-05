@@ -5,7 +5,7 @@ class AgentDelta(Agent):
     
     def __init__(self,x = 2,y = 2):
         Agent.__init__(self)
-        self.map = {(0,0): [True, True, True, True, 0]} #Nord, Sud, Ovest, Est, Padre
+        self.map = {(0,0): [True, True, True, True, 0]} #Nord, Sud, Ovest, Est, Parent
         self.pos = (0,0)
         self.fut = (0,0)
         self.curr = 'GoNorth'
@@ -14,7 +14,6 @@ class AgentDelta(Agent):
 		
         def program((status, bump)):
 
-	    #Quando Delta sbatte contro un muro, propaga l'informazione ai vicini del muro tagliando i loro archi
             def propagabump():
                 coordnord = vector_add( (0,1), self.fut )
                 coordsud = vector_add( (0,-1), self.fut )
@@ -42,7 +41,6 @@ class AgentDelta(Agent):
                     self.map[coordest] = [True, True, False, True, 9]
 
 
-	    #Quando Delta trova una casella pulita lo comunica ai vicini che non andranno a esplorare quel percorso
             def propagaclean():
                 coordnord = vector_add( (0,1), self.pos )
                 coordsud = vector_add( (0,-1), self.pos )
@@ -70,7 +68,6 @@ class AgentDelta(Agent):
                     self.map[coordest] = [True, True, False, True, 9]
 
 
-            #Questa funzione reindirizza Delta verso il padre della casella attuale
             def gopadre(direzione):
                 if direzione == 1:
                     self.pos = vector_add( (0,1), self.pos )
@@ -86,7 +83,6 @@ class AgentDelta(Agent):
                     return 'GoEast'
                 
                 
-			#All'arrivo in una nuova casella questa funzione ne imposta il padre
             def impostapadre():
                 if self.curr == 'GoNorth':
                     self.map[self.fut][4] = 2
@@ -98,7 +94,6 @@ class AgentDelta(Agent):
                     self.map[self.fut][4] = 3
 
             
-	    #Questa funzione calcola in quale casella ci troviamo osservando la direzione di movimento
             def posizionefutura ():     
                 if self.curr == 'GoNorth':
                     self.fut = vector_add( (0,1), self.pos )
@@ -110,7 +105,6 @@ class AgentDelta(Agent):
                     self.fut = vector_add( (1,0), self.pos )
                         
 						
-            #Questa funzione taglia i rami diretti al padre (o al ramo errato)            
             def tagliaback ():                  
                 if self.curr == 'GoNorth':
                     self.map[self.fut][1] = False
@@ -122,7 +116,6 @@ class AgentDelta(Agent):
                     self.map[self.fut][2] = False
                 
             
-	    #Questa funzione sceglie la prossima mossa e taglia preventivamente i rami    
             def prossima ():                    
                 if self.map[self.pos][0] == True:
                     self.curr='GoNorth'
@@ -160,7 +153,7 @@ class AgentDelta(Agent):
             if not self.ritorna:
 			
                 if not self.fut in self.map:
-					self.map[self.fut] = [True, True, True, True, 0]
+			self.map[self.fut] = [True, True, True, True, 0]
                 impostapadre()
                 tagliaback()
                 self.pos = self.fut
