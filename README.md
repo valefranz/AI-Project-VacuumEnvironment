@@ -35,7 +35,11 @@ This project is based on [aima-python](https://code.google.com/p/aima-python/) f
 
 ## Contributors
 
-ToDo!!!
+In this section will be mentioned all the people who have contributed to the creation of this program (the list will be in alphabetic order):
+
+[Nrevo](https://github.com/Nrevo)
+
+... toDo
 
 ## License
 
