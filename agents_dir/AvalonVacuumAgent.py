@@ -1,4 +1,5 @@
 from . agents import *
+from random import randint
 
 
 class AvalonVacuumAgentClass(Agent):
